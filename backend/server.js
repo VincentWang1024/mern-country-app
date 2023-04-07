@@ -1,5 +1,9 @@
 var express = require("express");
 var app = express();
+
+const cors = require('cors');
+app.use(cors());
+
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
