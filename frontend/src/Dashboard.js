@@ -263,6 +263,7 @@ export default class Dashboard extends Component {
             variant="contained"
             size="small"
             onClick={this.logOut}
+            name="logout"
           >
             Log Out
           </Button>
@@ -369,7 +370,7 @@ export default class Dashboard extends Component {
                 name="file"
                 value={this.state.file}
                 onChange={this.onChange}
-                id="fileInput"
+                // id="fileInput"
                 placeholder="File"
                 hidden
                 required
