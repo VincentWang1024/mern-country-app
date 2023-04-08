@@ -188,8 +188,10 @@ function checkUserAndGenerateToken(data, req, res) {
   });
 }
 
-app.listen(2000, () => {
-  console.log("Server is Runing On port 2000");
+// start server
+const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 2000;
+const server = app.listen(port, function () {
+    console.log('Server listening on port ' + port);
 });
 
 module.exports = app;
