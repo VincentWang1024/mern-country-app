@@ -1,29 +1,28 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
-    resolve: {
-        extensions: ['.js', '.jsx']
+  // ... other config ...
+
+  devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    historyApiFallback: true,
+    compress: true,
+    hot: true,
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:2000',
+        pathRewrite: { '^/api': '' },
+        secure: false,
+        changeOrigin: true,
+      },
     },
-    module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                loader: 'babel-loader'
-            }
-        ]
-    },
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html'
-    })],
-    devServer: {
-        historyApiFallback: true
-    },
-    externals: {
-        // global app config object
-        config: JSON.stringify({
-            // apiUrl: 'http://localhost:4000'
-            apiUrl: '/api'
-        })
-    }
-}
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
+};
