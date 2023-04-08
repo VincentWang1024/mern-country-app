@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import swal from 'sweetalert';
 import { Button, TextField, Link } from '@material-ui/core';
+import api from './api';
+
 const axios = require('axios');
 
 export default class Register extends React.Component {
@@ -17,7 +19,7 @@ export default class Register extends React.Component {
 
   register = () => {
 
-    axios.post('http://localhost:2000/register', {
+    api.post('/register', {
       username: this.state.username,
       password: this.state.password,
     }).then((res) => {
