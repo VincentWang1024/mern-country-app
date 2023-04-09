@@ -42,6 +42,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: false
 }));
 
+const PORT = process.env.PORT || 2000;
+
+
 app.use("/", (req, res, next) => {
   try {
     if (req.path == "/login" || req.path == "/register" || req.path == "/") {
@@ -189,9 +192,8 @@ function checkUserAndGenerateToken(data, req, res) {
 }
 
 // start server
-const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 2000;
-const server = app.listen(port, function () {
-    console.log('Server listening on port ' + port);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
