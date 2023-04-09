@@ -68,7 +68,7 @@ app.use("/", (req, res, next) => {
   }
 })
 
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
   res.status(200).json({
     status: true,
     title: 'Apis'
