@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
 
+var morgan = require('morgan');
+
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
@@ -12,6 +14,9 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0.ado3i.mongodb.net/CS230?ret
 var fs = require('fs');
 // var product = require("./model/product.js");
 var user = require("./model/user.js");
+
+// Configure Morgan for logging
+app.use(morgan('combined'));
 
 var dir = './uploads';
 var upload = multer({
@@ -46,10 +51,17 @@ const PORT = process.env.PORT || 2000;
 
 
 app.use("/", (req, res, next) => {
+  
   try {
+    //debug
+    req.on('data', (chunk) => {
+      console.log(`Received data chunk: ${chunk}`);
+    });
+    
     if (req.path == "/login" || req.path == "/register" || req.path == "/") {
       next();
     } else {
+      
       /* decode jwt token if authorized*/
       jwt.verify(req.headers.token, 'shhhhh11111', function (err, decoded) {
         if (decoded && decoded.user) {
@@ -81,6 +93,7 @@ app.post("/", (req, res) => {
 /* login api */
 app.post("/login", (req, res) => {
   try {
+
     if (req.body && req.body.username && req.body.password) {
       user.find({ username: req.body.username }, (err, data) => {
         if (data.length > 0) {
