@@ -22,6 +22,7 @@ export default class Login extends React.Component {
 
     const pwd = bcrypt.hashSync(this.state.password, salt);
 
+    console.log("pwd-encrypted: ",pwd);
     api.post('/login', {
       username: this.state.username,
       password: pwd,

@@ -101,7 +101,7 @@ app.post("/login", (req, res) => {
         if (data.length > 0) {
           console.log('Password (input):', req.body.password); // Debugging line
           console.log('Password (stored):', data[0].password); // Debugging line
-          if (bcrypt.compareSync(data[0].password, req.body.password)) {
+          if (bcrypt.compareSync(req.body.password, data[0].password)) {
             checkUserAndGenerateToken(data[0], req, res);
             // res.status(200).json({
             //   message: 'Login Successfully.',
