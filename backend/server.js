@@ -15,8 +15,10 @@ var fs = require('fs');
 // var product = require("./model/product.js");
 var user = require("./model/user.js");
 
-// Configure Morgan for logging
-app.use(morgan('combined'));
+const logDirectory = path.join(__dirname, 'logs');
+const accessLogStream = fs.createWriteStream(path.join(logDirectory, 'access.log'), { flags: 'a' });
+
+app.use(morgan('combined', { stream: accessLogStream }));
 
 var dir = './uploads';
 var upload = multer({
