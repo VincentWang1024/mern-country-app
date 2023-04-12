@@ -53,17 +53,17 @@ const PORT = process.env.PORT || 2000;
 
 
 app.use("/", (req, res, next) => {
-  
+
   try {
     //debug
     req.on('data', (chunk) => {
       console.log(`Received data chunk: ${chunk}`);
     });
-    
+
     if (req.path == "/login" || req.path == "/register" || req.path == "/") {
       next();
     } else {
-      
+
       /* decode jwt token if authorized*/
       jwt.verify(req.headers.token, 'shhhhh11111', function (err, decoded) {
         if (decoded && decoded.user) {
@@ -85,12 +85,16 @@ app.use("/", (req, res, next) => {
   }
 })
 
+// ... other app.use middleware 
+app.use(express.static(path.join(__dirname, "frontend", "build")))
+
 app.get("/", (req, res) => {
   res.status(200).json({
     status: true,
     title: 'Apis'
   });
 });
+
 
 /* login api */
 app.post("/login", (req, res) => {
@@ -205,6 +209,11 @@ function checkUserAndGenerateToken(data, req, res) {
     }
   });
 }
+
+// Right before your app.listen(), add this:
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+});
 
 // start server
 app.listen(PORT, () => {

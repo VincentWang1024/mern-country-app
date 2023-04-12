@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
+
   },
   "keywords": [
     "movie"
@@ -26,5 +28,8 @@
   "devDependencies": {
     "jest": "^29.5.0",
     "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": "19.5.0"
   }
 }
