@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 const PORT = process.env.PORT || 2000;
 
 
-app.use("/", (req, res, next) => {
+app.use("/api", (req, res, next) => {
 
   try {
     //debug
@@ -85,15 +85,24 @@ app.use("/", (req, res, next) => {
   }
 })
 
-// ... other app.use middleware 
-app.use(express.static(path.join(__dirname, "frontend", "build")))
+__dirname = path.resolve();
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: true,
-    title: 'Apis'
+if(process.env.NODE_ENV === "production") {
+  // ... other app.use middleware 
+  app.use(express.static(path.join(__dirname, "frontend", "build")))
+
+  // Right before your app.listen(), add this:
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
   });
-});
+}else{
+  app.get("/", (req, res) => {
+    res.status(200).json({
+      status: true,
+      title: 'Apis'
+    });
+  });
+}
 
 
 /* login api */
@@ -210,10 +219,6 @@ function checkUserAndGenerateToken(data, req, res) {
   });
 }
 
-// Right before your app.listen(), add this:
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
-});
 
 // start server
 app.listen(PORT, () => {
